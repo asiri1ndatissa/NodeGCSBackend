@@ -24,28 +24,37 @@
 
 import asyncio
 from mavsdk import System
-
-
+from mavsdk.param import Param
+from operator import attrgetter
 async def run():
     # Init the drone
     drone = System()
+   
+  
     await drone.connect(system_address="udp://:14540")
-
+    
     # Start the tasks
     asyncio.ensure_future(print_battery(drone))
-    asyncio.ensure_future(print_gps_info(drone))
-    asyncio.ensure_future(print_in_air(drone))
-    asyncio.ensure_future(print_position(drone))
-
+    # asyncio.ensure_future(print_gps_info(drone))
+    # asyncio.ensure_future(print_in_air(drone))
+    # asyncio.ensure_future(print_position(drone))
+   
 async def print_battery(drone):
-    async for battery in drone.telemetry.battery():
-        print(f"Battery: {battery.remaining_percent}")
+    x = await drone.param.get_all_params()
+    gender, username = attrgetter('int_params', 'float_params')(x)
+
+    # y = attrgetter('<mavsdk.param.IntParam object at 0x7febcc219cc0>')(gender)
+    for ele in enumerate(gender):
+        print(ele[1])
+        
+  
 
 
 async def print_gps_info(drone):
     async for gps_info in drone.telemetry.gps_info():
         print(f"GPS info: {gps_info}")
 
+        
 
 async def print_in_air(drone):
     async for in_air in drone.telemetry.in_air():
