@@ -2,30 +2,41 @@ var express = require('express');
 var app = express(); 
   
 
-app.listen(3000, function() { 
+app.listen(3400, function() { 
     console.log('server running on port 3000'); 
+    
 } ) 
   
-app.get('/takeoff', callName); 
-  
-function callName(req, res) { 
+
+  let i =1;
+  callName();
+
+function callName() { 
   
     var spawn = require("child_process").spawn; 
-    var process = spawn('python3',["./takeoff_and_land.py", 
-                           ] ); 
+    var process = spawn('python3',["./getparam.py", ] ); 
      process.stdout.on('data', function(data) { 
-        res.send(data.toString()); 
+        //  res.writeHead(200,{'Content-Type': 'application/json'});
+        //  jsonStr = JSON.stringify(data) + '\n'
+        //  jsonStr.toStream().pipe(res)
+
+        //  res.send(data.toString()); 
+        
+        console.log(i + " "+ data)
+        i++
     } ) 
 } 
 
-app.get('/mission', callName); 
+
+// app.get('/gimbal', callName); 
   
-function callName(req, res) { 
+// function callName(req, res) { 
   
-    var spawn = require("child_process").spawn; 
-    var process = spawn('python3',["./mission.py", 
-                           ] ); 
-     process.stdout.on('data', function(data) { 
-        res.send(data.toString()); 
-    } ) 
-} 
+//     var spawn = require("child_process").spawn; 
+//     var process = spawn('python3',["./gimbal.py", 
+//                            ] ); 
+//      process.stdout.on('data', function(data) { 
+//         res.send(data.toString()); 
+//     } ) 
+// } 
+
