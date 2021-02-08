@@ -45,11 +45,11 @@ async def print_battery(drone):
 
     # y = attrgetter('<mavsdk.param.IntParam object at 0x7febcc219cc0>')(gender)
     for ele in enumerate(gender):
-        print(ele[1])
+      name , value = attrgetter('name', 'value')(ele[1])
+      print(name, value)
+
         
   
-
-
 async def print_gps_info(drone):
     async for gps_info in drone.telemetry.gps_info():
         print(f"GPS info: {gps_info}")
